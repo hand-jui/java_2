@@ -75,5 +75,4 @@ public class UserDTO {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-
 }
