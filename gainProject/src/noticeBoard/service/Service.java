@@ -21,17 +21,22 @@ public class Service {
 
 	public int post(String title, String content, String nickname, String password) {
 		int result = 0;
-		DTO dto = new DTO(title, content, nickname, password);
+		DTO dto = new DTO();
+		dto.setTitle(title);
+		dto.setContent(content);
+		dto.setNickname(nickname);
+		dto.setPassword(password);
 		result = dao.insert(dto);
 		return result;
 	}
 	
 	public int edit(String title,String content) {
 		int result = 0;
-		DTO dto = new DTO(title,content);
+		DTO dto = new DTO();
+		dto.setTitle(title);
+		dto.setContent(content);
 		result = dao.update(dto);
-		
-		return 0;
+		return result;
 	}
 
 }

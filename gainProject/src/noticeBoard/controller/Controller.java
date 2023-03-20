@@ -18,10 +18,14 @@ public class Controller {
 		noticeList = service.select();
 		return noticeList;
 	}
-	
-	
-	public int post(String title, String content,String nickname, String password) {
+
+	public int post(String title, String content, String nickname, String password) {
 		int result = service.post(title, content, nickname, password);
+		return result;
+	}
+
+	public int edit(String title, String content) {
+		int result = service.edit(title, content);
 		return result;
 	}
 

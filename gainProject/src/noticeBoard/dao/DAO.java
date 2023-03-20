@@ -30,7 +30,10 @@ public class DAO implements IDAO {
 				int no = rs.getInt("no");
 				String title = rs.getString("title");
 				String nickname = rs.getString("nickname");
-				DTO dto = new DTO(no, title, nickname);
+				DTO dto = new DTO();
+				dto.setNo(no);
+				dto.setTitle(title);
+				dto.setNickname(nickname);
 				noticeList.add(dto);
 			}
 		} catch (Exception e) {

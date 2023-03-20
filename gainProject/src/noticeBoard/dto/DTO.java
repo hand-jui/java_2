@@ -11,28 +11,6 @@ public class DTO {
 	public DTO() {
 	}
 
-	public DTO(int no, String title, String nickname) {
-		this.no = no;
-		this.title = title;
-		this.nickname = nickname;
-	}
-	
-
-	public DTO(String title, String content, String nickname, String password) {
-		this.title = title;
-		this.content = content;
-		this.nickname = nickname;
-		this.password = password;
-	}
-
-	public DTO(int no, String title, String content, String nickname, String password) {
-		this.no = no;
-		this.title = title;
-		this.content = content;
-		this.nickname = nickname;
-		this.password = password;
-	}
-
 	public int getNo() {
 		return no;
 	}
@@ -65,12 +43,18 @@ public class DTO {
 		this.nickname = nickname;
 	}
 
+	
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "no." + no  +"\t"+ title +"\t\t\t"+ nickname ;
 	}
 
 }

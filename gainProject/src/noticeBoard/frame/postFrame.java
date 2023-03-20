@@ -103,7 +103,12 @@ public class postFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				DTO dto = new DTO(titleText.getText(), tArea.getText(), nickText.getText(), pwText.getText());
+				DTO dto = new DTO();
+				dto.setTitle(titleText.getText());
+				dto.setContent(tArea.getText());
+				dto.setNickname(nickText.getText());
+				dto.setPassword(pwText.getText());
+				
 				Controller controller = new Controller();
 				controller.post(dto.getTitle(), dto.getContent(), dto.getNickname(), dto.getPassword());
 
