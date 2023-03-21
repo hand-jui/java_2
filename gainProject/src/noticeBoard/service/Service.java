@@ -18,6 +18,7 @@ public class Service {
 		noticeDto = dao.select();
 		return noticeDto;
 	}
+	
 
 	public int post(String title, String content, String nickname, String password) {
 		int result = 0;
@@ -30,12 +31,19 @@ public class Service {
 		return result;
 	}
 	
-	public int edit(String title,String content) {
+	public int edit(DTO dto) {
 		int result = 0;
-		DTO dto = new DTO();
-		dto.setTitle(title);
-		dto.setContent(content);
 		result = dao.update(dto);
+		return result;
+	}
+	
+	public int delete(DTO dto) {
+		int result =0;
+		DTO mainDTO = dao.selectByNo(dto.getNo());
+		if(mainDTO.getPassword().equals(dto.getPassword())) {
+			result =dao.delete(mainDTO);
+			return result;
+		}
 		return result;
 	}
 

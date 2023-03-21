@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import noticeBoard.controller.Controller;
+import noticeBoard.dao.DAO;
 import noticeBoard.dto.DTO;
 
 public class BoardFrame extends JFrame {
@@ -25,7 +26,7 @@ public class BoardFrame extends JFrame {
 	JLabel notice;
 	JLabel title;
 	JLabel nickname;
-	
+
 	NoticeTable noticeTable;
 
 	JButton writeB;
@@ -46,10 +47,7 @@ public class BoardFrame extends JFrame {
 		setSize(600, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//		controller = new Controller();
-//		ArrayList<DTO> noticeList = controller.select();
-
-//		System.out.println(noticeList.get(0).getNo());
+		controller = new Controller();
 
 		jpanel = new JPanel();
 		jpanel.setSize(600, 600);
@@ -60,33 +58,9 @@ public class BoardFrame extends JFrame {
 		notice.setLocation(230, 30);
 		notice.setFont(new Font("태나다체", Font.BOLD, 50));
 
-		title = new JLabel("title");
-		title.setSize(150, 30);
-		title.setLocation(150, 110);
-		title.setFont(new Font("태나다체", Font.BOLD, 20));
-
-		nickname = new JLabel("nick");
-		nickname.setSize(150, 30);
-		nickname.setLocation(430, 110);
-		nickname.setFont(new Font("태나다체", Font.BOLD, 20));
-
 		noticeTable = new NoticeTable();
-		noticeTable.setLocation(50, 150);
+		noticeTable.setLocation(50, 100);
 		noticeTable.setSize(500, 300);
-		
-//		dtm = new DefaultTableModel(contents, HEADER);
-//		noticeTable = new JTable(dtm);
-//		scrollPane = new JScrollPane(noticeTable);
-//		scrollPane.setSize(500, 300);
-
-//		setSize(500, 300);
-//		for (int i = 0; i < noticeList.size(); i++) {
-//			DTO dto = noticeList.get(i);
-//			record[0] = dto.getNo();
-//			record[1] = dto.getTitle();
-//			record[2] = dto.getNickname();
-//			tableModel.addRow(record);
-//		}
 
 //		noticeTable = new JTable();
 //		noticeTable.setSize(500, 300);
@@ -117,8 +91,8 @@ public class BoardFrame extends JFrame {
 		setLayout(null);
 		jpanel.setLayout(null);
 		jpanel.add(notice);
-		jpanel.add(title);
-		jpanel.add(nickname);
+//		jpanel.add(title);
+//		jpanel.add(nickname);
 		jpanel.add(noticeTable);
 		jpanel.add(writeB);
 		jpanel.add(updateB);
@@ -144,20 +118,37 @@ public class BoardFrame extends JFrame {
 		});
 
 		updateB.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				DAO dao = new DAO();
+				DTO dto = dao.selectByNo(noticeTable.noticeTable.getSelectedRow());
 
-				new postFrame();
+//				System.out.println();
+//				int c1 = (int) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 0);
+//				String c2 = (String) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 1);
+//				String c3 = (String) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 2);
+
+				new updateFrame(dto);
 				dispose();
 			}
 		});
 
+		deleteB.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				DAO dao = new DAO();
+				DTO dto = dao.selectByNo(noticeTable.noticeTable.getSelectedRow());
+				controller.delete(dto);
+				repaint();
+			}
+		});
 	}
 
 }
 
-class NoticeTable extends JFrame {
+class NoticeTable extends JPanel {
 
 	Object record[] = new Object[3];
 	String[] field = { "NO", "TITLE", "NICKNAME" };
@@ -166,7 +157,7 @@ class NoticeTable extends JFrame {
 	JScrollPane scrollPane = new JScrollPane(noticeTable);
 
 	public NoticeTable() {
-		add(scrollPane,"Center");
+		add(scrollPane, "Center");
 		Controller controller = new Controller();
 		ArrayList<DTO> noticeList = controller.select();
 		for (int i = 0; i < noticeList.size(); i++) {

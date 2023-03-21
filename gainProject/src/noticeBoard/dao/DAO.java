@@ -44,6 +44,32 @@ public class DAO implements IDAO {
 	}
 
 	@Override
+	public DTO selectByNo(int no) {
+		DTO dto = new DTO();
+		String query = " SELECT * FROM noticeBoard WHERE no = ?  ";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, no + 1);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String nickname = rs.getString("nickname");
+				String password = rs.getString("password");
+				dto.setNo(no);
+				dto.setTitle(title);
+				dto.setContent(content);
+				dto.setNickname(nickname);
+				dto.setPassword(password);
+			}
+		} catch (Exception e) {
+			System.err.println("DAO select 에러");
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
 	public int insert(DTO dto) {
 		int resultRow = 0;
 		String query = " INSERT INTO noticeBoard(title, content, nickname, password) VALUE (? , ?, ?, ?) ";
@@ -79,22 +105,22 @@ public class DAO implements IDAO {
 		return resultRow;
 	}
 
-//	@Override
-//	public int delete(DTO dto) {
-//		int resultRow = 0;
-//		String query = " DELETE FROM noticeBoard WHERE nickname= ? AND password = ? ";
-//		try {
-//			pstmt = conn.prepareStatement(query);
-//			pstmt.setString(1, dto.getNickname());
-//			pstmt.setString(2, dto.getPassword());
-//			resultRow = pstmt.executeUpdate();
-//		} catch (Exception e) {
-//			System.err.println("DAO delete 에러");
-//			e.printStackTrace();
-//		}
-//		return resultRow;
-//	}
-//
+	@Override
+	public int delete(DTO dto) {
+		int resultRow = 0;
+		String query = " DELETE FROM noticeBoard WHERE nickname= ? AND password = ? ";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, dto.getNickname());
+			pstmt.setString(2, dto.getPassword());
+			resultRow = pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.err.println("DAO delete 에러");
+			e.printStackTrace();
+		}
+		return resultRow;
+	}
+
 //	public void insert(Controller controller) {
 //		// TODO Auto-generated method stub
 //		

@@ -35,6 +35,13 @@ public class postFrame extends JFrame {
 		addEventListener();
 	}
 
+	public postFrame(int no, String title, String content) {
+		initData();
+		setInitLayout();
+		addEventListener();
+
+	}
+
 	private void initData() {
 		setTitle("글 쓰기");
 		setSize(600, 600);
@@ -96,7 +103,7 @@ public class postFrame extends JFrame {
 		setVisible(true);
 	}
 
-	private void addEventListener() {
+	public void addEventListener() {
 
 		postB.addActionListener(new ActionListener() {
 
@@ -108,7 +115,7 @@ public class postFrame extends JFrame {
 				dto.setContent(tArea.getText());
 				dto.setNickname(nickText.getText());
 				dto.setPassword(pwText.getText());
-				
+
 				Controller controller = new Controller();
 				controller.post(dto.getTitle(), dto.getContent(), dto.getNickname(), dto.getPassword());
 
@@ -116,6 +123,40 @@ public class postFrame extends JFrame {
 				dispose();
 			}
 		});
+	}
+//	titleText.setText(title);
+//	tArea.setText(content);
+
+	public JTextArea gettArea() {
+		return tArea;
+	}
+
+	public void settArea(JTextArea tArea) {
+		this.tArea = tArea;
+	}
+
+	public JTextField getTitleText() {
+		return titleText;
+	}
+
+	public void setTitleText(JTextField titleText) {
+		this.titleText = titleText;
+	}
+
+	public JTextField getNickText() {
+		return nickText;
+	}
+
+	public void setNickText(JTextField nickText) {
+		this.nickText = nickText;
+	}
+
+	public JTextField getPwText() {
+		return pwText;
+	}
+
+	public void setPwText(JTextField pwText) {
+		this.pwText = pwText;
 	}
 
 }

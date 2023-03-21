@@ -24,9 +24,13 @@ public class Controller {
 		return result;
 	}
 
-	public int edit(String title, String content) {
-		int result = service.edit(title, content);
+	public int edit(DTO dto) {
+		int result = service.edit(dto);
 		return result;
 	}
 
+	public int delete(DTO dto) {
+		int result = service.delete(dto);
+		return result;
+	}
 }
