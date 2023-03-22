@@ -11,9 +11,9 @@ public class AController {
 	
 	}
 	
-	public String select() {
-		String result1 = aService.select();
-		return result1;
-	}
+//	public String select() {
+//		String result1 = aService.select();
+//		return result1;
+//	}
 
 }

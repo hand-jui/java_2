@@ -49,7 +49,7 @@ public class DAO implements IDAO {
 		String query = " SELECT * FROM noticeBoard WHERE no = ?  ";
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, no + 1);
+			pstmt.setInt(1, no);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String title = rs.getString("title");

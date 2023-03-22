@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import noticeBoard.controller.Controller;
@@ -24,16 +25,22 @@ public class BoardFrame extends JFrame {
 	JPanel jpanel;
 
 	JLabel notice;
-	JLabel title;
-	JLabel nickname;
 
 	NoticeTable noticeTable;
+
+	JLabel nickname;
+	JLabel password;
+
+	JTextField nickText;
+	JTextField pwdText;
 
 	JButton writeB;
 	JButton updateB;
 	JButton deleteB;
 
 	Controller controller;
+	
+	AlertFrame alert;
 
 	public BoardFrame() {
 		initData();
@@ -62,16 +69,21 @@ public class BoardFrame extends JFrame {
 		noticeTable.setLocation(50, 100);
 		noticeTable.setSize(500, 300);
 
-//		noticeTable = new JTable();
-//		noticeTable.setSize(500, 300);
-//		noticeTable.setLocation(50, 150);
-//		noticeTable.setFont(new Font("맑은고딕", Font.BOLD, 13));
-//		for (int i = 0; i < noticeList.size(); i++) {
-//			noticeTable.append(noticeList.get(i) + "\n");
-//		}
-//		boardTable = new BoardTable();
-//		boardTable.setLocation(50, 150);
-//		boardTable.setFont(new Font("맑은고딕", Font.BOLD,13));
+		nickname = new JLabel("nickname");
+		nickname.setSize(100, 30);
+		nickname.setLocation(50, 450);
+		
+		nickText = new JTextField();
+		nickText.setSize(150,30);
+		nickText.setLocation(120, 450);
+		
+		password = new JLabel("password");
+		password.setSize(100, 30);
+		password.setLocation(300, 450);
+		
+		pwdText = new JTextField();
+		pwdText.setSize(150, 30);
+		pwdText.setLocation(380, 450);
 
 		writeB = new JButton("글 쓰기");
 		writeB.setSize(100, 30);
@@ -91,9 +103,11 @@ public class BoardFrame extends JFrame {
 		setLayout(null);
 		jpanel.setLayout(null);
 		jpanel.add(notice);
-//		jpanel.add(title);
-//		jpanel.add(nickname);
 		jpanel.add(noticeTable);
+		jpanel.add(nickname);
+		jpanel.add(nickText);
+		jpanel.add(password);
+		jpanel.add(pwdText);
 		jpanel.add(writeB);
 		jpanel.add(updateB);
 		jpanel.add(deleteB);
@@ -120,16 +134,19 @@ public class BoardFrame extends JFrame {
 		updateB.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int row = (int) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 0);
 				DAO dao = new DAO();
-				DTO dto = dao.selectByNo(noticeTable.noticeTable.getSelectedRow());
+				DTO dto = dao.selectByNo(row);
 
-//				System.out.println();
-//				int c1 = (int) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 0);
-//				String c2 = (String) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 1);
-//				String c3 = (String) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 2);
-
+				alert = new AlertFrame();
+				if(!nickText.getText().equals(dto.getNickname())) {
+					alert.label.setText("닉네임이 일치하지 않음");
+				} else if(!pwdText.getText().equals(dto.getPassword())){
+					alert.label.setText("패스워드가 일치하지 않음");
+				} else {
 				new updateFrame(dto);
 				dispose();
+				}
 			}
 		});
 
@@ -138,14 +155,24 @@ public class BoardFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				int row = (int) noticeTable.dtm.getValueAt(noticeTable.noticeTable.getSelectedRow(), 0);
 				DAO dao = new DAO();
-				DTO dto = dao.selectByNo(noticeTable.noticeTable.getSelectedRow());
+				DTO dto = dao.selectByNo(row);
+				alert = new AlertFrame();
+				if(!nickText.getText().equals(dto.getNickname())) {
+					alert.label.setText("닉네임이 일치하지 않음");
+				} else if(!pwdText.getText().equals(dto.getPassword())){
+					alert.label.setText("패스워드가 일치하지 않음");
+				} else {
 				controller.delete(dto);
-				repaint();
+				noticeTable = new NoticeTable();
+				dispose();
+				new BoardFrame();
+				}
+
 			}
 		});
 	}
-
 }
 
 class NoticeTable extends JPanel {

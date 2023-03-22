@@ -28,6 +28,7 @@ public class Controller {
 		int result = service.edit(dto);
 		return result;
 	}
+	
 
 	public int delete(DTO dto) {
 		int result = service.delete(dto);
